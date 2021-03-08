@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Math.Gmp.Native</RootNamespace>
     <AssemblyName>Math.Gmp.Native</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFramework>net5.0</TargetFramework>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
@@ -90,7 +90,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Dependencies\ConsoleApplication12.zip" />
-    <None Include="Dependencies\gmp-6.1.2.tar.bz2" />
+    <None Include="Dependencies\gmp-6.2.1.tar.bz2" />
     <None Include="ReadMe.txt" />
     <None Include="Dependencies\msys2-i686-20161025.exe" />
     <None Include="Dependencies\msys2-x86_64-20161025.exe" />
@@ -100,18 +100,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="x86\libgmp-10.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="x64\GMP_COPYING">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="x64\GMP_README">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="x86\GMP_COPYING">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="x86\GMP_README">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -128,4 +116,8 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <ItemGroup>
+    <PackageReference Include="EWSoftware.SHFB" Version="2020.3.6" />
+    <PackageReference Include="EWSoftware.SHFB.NETFramework" Version="4.8.0" />
+  </ItemGroup>
 </Project>

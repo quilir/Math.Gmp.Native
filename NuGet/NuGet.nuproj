@@ -4,11 +4,6 @@
     <ProjectGuid>b51a83d0-21f1-454a-a62c-8173db309348</ProjectGuid>
     <OutputPath>Bin\</OutputPath>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <NuBuildVersionSource>Manual</NuBuildVersionSource>
-    <NuBuildVersionFileName>False</NuBuildVersionFileName>
-    <NuBuildAddBinariesToSubfolder>False</NuBuildAddBinariesToSubfolder>
-    <NuBuildIncludePdbs>True</NuBuildIncludePdbs>
-    <Name>NuGet</Name>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
   </PropertyGroup>
