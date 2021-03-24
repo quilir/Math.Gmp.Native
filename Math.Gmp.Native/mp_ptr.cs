@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 
-namespace Nethermind.Gmp
+namespace Math.Gmp.Native
 {
 
     /// <summary>

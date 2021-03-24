@@ -2,7 +2,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace Nethermind.Gmp
+namespace Math.Gmp.Native
 {
 
     /// <summary>

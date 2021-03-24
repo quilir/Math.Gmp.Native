@@ -2,7 +2,7 @@
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Runtime.InteropServices;
-using Nethermind.Gmp;
+using Math.Gmp.Native;
 using System.Linq;
 using System.Text;
 

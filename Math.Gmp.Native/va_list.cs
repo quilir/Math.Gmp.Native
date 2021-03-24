@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace Nethermind.Gmp
+namespace Math.Gmp.Native
 {
 
     /// <summary>
