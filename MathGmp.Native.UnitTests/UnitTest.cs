@@ -269,18 +269,18 @@ namespace UnitTests
             long l = (long)v;
 
             // Check OverflowException conversions to mp_limb_t.
-            Assert.IsTrue(Test(() => v = (mp_limb_t)(byte)byte.MaxValue) == "0x000000ff");
+            Assert.AreEqual(Test(() => v = (mp_limb_t)(byte)byte.MaxValue), "0x00000000000000ff");
             Assert.IsTrue(Test(() => v = (mp_limb_t)(sbyte)minusOne) == typeof(OverflowException).Name);
-            Assert.IsTrue(Test(() => v = (mp_limb_t)(sbyte)sbyte.MaxValue) == "0x0000007f");
-            Assert.IsTrue(Test(() => v = (mp_limb_t)(ushort)ushort.MaxValue) == "0x0000ffff");
+            Assert.AreEqual(Test(() => v = (mp_limb_t)(sbyte)sbyte.MaxValue), "0x000000000000007f");
+            Assert.AreEqual(Test(() => v = (mp_limb_t)(ushort)ushort.MaxValue), "0x000000000000ffff");
             Assert.IsTrue(Test(() => v = (mp_limb_t)(short)minusOne) == typeof(OverflowException).Name);
-            Assert.IsTrue(Test(() => v = (mp_limb_t)(short)short.MaxValue) == "0x00007fff");
-            Assert.IsTrue(Test(() => v = (mp_limb_t)(uint)uint.MaxValue) == "0xffffffff");
+            Assert.AreEqual(Test(() => v = (mp_limb_t)(short)short.MaxValue), "0x0000000000007fff");
+            Assert.AreEqual(Test(() => v = (mp_limb_t)(uint)uint.MaxValue), "0x00000000ffffffff");
             Assert.IsTrue(Test(() => v = (mp_limb_t)(int)minusOne) == typeof(OverflowException).Name);
-            Assert.IsTrue(Test(() => v = (mp_limb_t)(int)int.MaxValue) == "0x7fffffff");
-            Assert.IsTrue(Test(() => v = (mp_limb_t)(ulong)ulong.MaxValue) == "0xffffffffffffffff");
+            Assert.AreEqual(Test(() => v = (mp_limb_t)(int)int.MaxValue), "0x000000007fffffff");
+            Assert.AreEqual(Test(() => v = (mp_limb_t)(ulong)ulong.MaxValue), "0xffffffffffffffff");
             Assert.IsTrue(Test(() => v = (mp_limb_t)(long)minusOne) == typeof(OverflowException).Name);
-            Assert.IsTrue(Test(() => v = (mp_limb_t)(long)long.MaxValue) == "0x7fffffffffffffff");
+            Assert.AreEqual(Test(() => v = (mp_limb_t)(long)long.MaxValue), "0x7fffffffffffffff");
 
             // Check OverflowException conversions from uintmax_t.
             Assert.IsTrue(Test(() => b = (byte)(new mp_limb_t(ulong.MaxValue))) == typeof(OverflowException).Name);
@@ -782,7 +782,7 @@ namespace UnitTests
         public void gmp_version()
         {
             string version = gmp_lib.gmp_version;
-            Assert.AreEqual(version, "6.1.2");
+            Assert.AreEqual(version, "6.2.1");
         }
 
         #endregion
@@ -808,7 +808,6 @@ namespace UnitTests
         }
 
         [Test]
-        [Category("Memory allocation functions")]
         public void mp_set_memory_functions()
         {
             // Retrieve GMP default memory allocation functions.
@@ -1104,11 +1103,11 @@ namespace UnitTests
             Assert.IsTrue(gmp_lib.gmp_asprintf(str, "%f", (Single)1.0) == 8);
             Assert.IsTrue(str.Value.ToString() == "1.000000");
             gmp_lib.free(str.Value);
-            Assert.IsTrue(gmp_lib.gmp_asprintf(str, "%e", (Double)1.0) == 13);
-            Assert.IsTrue(str.Value.ToString() == "1.000000e+000");
+            Assert.IsTrue(gmp_lib.gmp_asprintf(str, "%e", (Double)1.0) == 12);
+            Assert.IsTrue(str.Value.ToString() == "1.000000e+00");
             gmp_lib.free(str.Value);
-            Assert.IsTrue(gmp_lib.gmp_asprintf(str, "%e", (Single)1.0) == 13);
-            Assert.IsTrue(str.Value.ToString() == "1.000000e+000");
+            Assert.IsTrue(gmp_lib.gmp_asprintf(str, "%e", (Single)1.0) == 12);
+            Assert.IsTrue(str.Value.ToString() == "1.000000e+00");
             gmp_lib.free(str.Value);
             Assert.IsTrue(gmp_lib.gmp_asprintf(str, "%g", (Double)1.0) == 1);
             Assert.IsTrue(str.Value.ToString() == "1");
@@ -1117,11 +1116,11 @@ namespace UnitTests
             Assert.IsTrue(str.Value.ToString() == "1");
             gmp_lib.free(str.Value);
 
-            Assert.IsTrue(gmp_lib.gmp_asprintf(str, "%E", (Double)1.0) == 13);
-            Assert.IsTrue(str.Value.ToString() == "1.000000E+000");
+            Assert.IsTrue(gmp_lib.gmp_asprintf(str, "%E", (Double)1.0) == 12);
+            Assert.IsTrue(str.Value.ToString() == "1.000000E+00");
             gmp_lib.free(str.Value);
-            Assert.IsTrue(gmp_lib.gmp_asprintf(str, "%E", (Single)1.0) == 13);
-            Assert.IsTrue(str.Value.ToString() == "1.000000E+000");
+            Assert.IsTrue(gmp_lib.gmp_asprintf(str, "%E", (Single)1.0) == 12);
+            Assert.IsTrue(str.Value.ToString() == "1.000000E+00");
             gmp_lib.free(str.Value);
             Assert.IsTrue(gmp_lib.gmp_asprintf(str, "%G", (Double)1.0) == 1);
             Assert.IsTrue(str.Value.ToString() == "1");
@@ -1264,11 +1263,11 @@ namespace UnitTests
             Assert.IsTrue(gmp_lib.gmp_vasprintf(str, "%f", (Single)1.0) == 8);
             Assert.IsTrue(str.Value.ToString() == "1.000000");
             gmp_lib.free(str.Value);
-            Assert.IsTrue(gmp_lib.gmp_vasprintf(str, "%e", (Double)1.0) == 13);
-            Assert.IsTrue(str.Value.ToString() == "1.000000e+000");
+            Assert.IsTrue(gmp_lib.gmp_vasprintf(str, "%e", (Double)1.0) == 12);
+            Assert.IsTrue(str.Value.ToString() == "1.000000e+00");
             gmp_lib.free(str.Value);
-            Assert.IsTrue(gmp_lib.gmp_vasprintf(str, "%e", (Single)1.0) == 13);
-            Assert.IsTrue(str.Value.ToString() == "1.000000e+000");
+            Assert.IsTrue(gmp_lib.gmp_vasprintf(str, "%e", (Single)1.0) == 12);
+            Assert.IsTrue(str.Value.ToString() == "1.000000e+00");
             gmp_lib.free(str.Value);
             Assert.IsTrue(gmp_lib.gmp_vasprintf(str, "%g", (Double)1.0) == 1);
             Assert.IsTrue(str.Value.ToString() == "1");
@@ -1277,11 +1276,11 @@ namespace UnitTests
             Assert.IsTrue(str.Value.ToString() == "1");
             gmp_lib.free(str.Value);
 
-            Assert.IsTrue(gmp_lib.gmp_vasprintf(str, "%E", (Double)1.0) == 13);
-            Assert.IsTrue(str.Value.ToString() == "1.000000E+000");
+            Assert.IsTrue(gmp_lib.gmp_vasprintf(str, "%E", (Double)1.0) == 12);
+            Assert.IsTrue(str.Value.ToString() == "1.000000E+00");
             gmp_lib.free(str.Value);
-            Assert.IsTrue(gmp_lib.gmp_vasprintf(str, "%E", (Single)1.0) == 13);
-            Assert.IsTrue(str.Value.ToString() == "1.000000E+000");
+            Assert.IsTrue(gmp_lib.gmp_vasprintf(str, "%E", (Single)1.0) == 12);
+            Assert.IsTrue(str.Value.ToString() == "1.000000E+00");
             gmp_lib.free(str.Value);
             Assert.IsTrue(gmp_lib.gmp_vasprintf(str, "%G", (Double)1.0) == 1);
             Assert.IsTrue(str.Value.ToString() == "1");
@@ -1465,13 +1464,13 @@ namespace UnitTests
             fclose(stream.Value.Value);
             Assert.IsTrue(System.IO.File.ReadAllText(pathname) == "1.000000");
             _wfopen_s(out stream.Value.Value, pathname, "w");
-            Assert.IsTrue(gmp_lib.gmp_fprintf(stream, "%e", (Double)1.0) == 13);
+            Assert.IsTrue(gmp_lib.gmp_fprintf(stream, "%e", (Double)1.0) == 12);
             fclose(stream.Value.Value);
-            Assert.IsTrue(System.IO.File.ReadAllText(pathname) == "1.000000e+000");
+            Assert.IsTrue(System.IO.File.ReadAllText(pathname) == "1.000000e+00");
             _wfopen_s(out stream.Value.Value, pathname, "w");
-            Assert.IsTrue(gmp_lib.gmp_fprintf(stream, "%e", (Single)1.0) == 13);
+            Assert.IsTrue(gmp_lib.gmp_fprintf(stream, "%e", (Single)1.0) == 12);
             fclose(stream.Value.Value);
-            Assert.IsTrue(System.IO.File.ReadAllText(pathname) == "1.000000e+000");
+            Assert.IsTrue(System.IO.File.ReadAllText(pathname) == "1.000000e+00");
 
             _wfopen_s(out stream.Value.Value, pathname, "w");
             Assert.IsTrue(gmp_lib.gmp_fprintf(stream, "%g", (Double)1.0) == 1);
@@ -1483,13 +1482,13 @@ namespace UnitTests
             Assert.IsTrue(System.IO.File.ReadAllText(pathname) == "1");
 
             _wfopen_s(out stream.Value.Value, pathname, "w");
-            Assert.IsTrue(gmp_lib.gmp_fprintf(stream, "%E", (Double)1.0) == 13);
+            Assert.IsTrue(gmp_lib.gmp_fprintf(stream, "%E", (Double)1.0) == 12);
             fclose(stream.Value.Value);
-            Assert.IsTrue(System.IO.File.ReadAllText(pathname) == "1.000000E+000");
+            Assert.IsTrue(System.IO.File.ReadAllText(pathname) == "1.000000E+00");
             _wfopen_s(out stream.Value.Value, pathname, "w");
-            Assert.IsTrue(gmp_lib.gmp_fprintf(stream, "%E", (Single)1.0) == 13);
+            Assert.IsTrue(gmp_lib.gmp_fprintf(stream, "%E", (Single)1.0) == 12);
             fclose(stream.Value.Value);
-            Assert.IsTrue(System.IO.File.ReadAllText(pathname) == "1.000000E+000");
+            Assert.IsTrue(System.IO.File.ReadAllText(pathname) == "1.000000E+00");
 
             _wfopen_s(out stream.Value.Value, pathname, "w");
             Assert.IsTrue(gmp_lib.gmp_fprintf(stream, "%G", (Double)1.0) == 1);
@@ -1501,13 +1500,13 @@ namespace UnitTests
             Assert.IsTrue(System.IO.File.ReadAllText(pathname) == "1");
 
             _wfopen_s(out stream.Value.Value, pathname, "w");
-            Assert.IsTrue(gmp_lib.gmp_fprintf(stream, "%a", (Double)1.0) == 13);
+            Assert.IsTrue(gmp_lib.gmp_fprintf(stream, "%a", (Double)1.0) == 6);
             fclose(stream.Value.Value);
-            Assert.IsTrue(System.IO.File.ReadAllText(pathname) == "0x1.000000p+0");
+            Assert.IsTrue(System.IO.File.ReadAllText(pathname) == "0x8p-3");
             _wfopen_s(out stream.Value.Value, pathname, "w");
-            Assert.IsTrue(gmp_lib.gmp_fprintf(stream, "%a", (Single)1.0) == 13);
+            Assert.IsTrue(gmp_lib.gmp_fprintf(stream, "%a", (Single)1.0) == 6);
             fclose(stream.Value.Value);
-            Assert.IsTrue(System.IO.File.ReadAllText(pathname) == "0x1.000000p+0");
+            Assert.IsTrue(System.IO.File.ReadAllText(pathname) == "0x8p-3");
 
             _wfopen_s(out stream.Value.Value, pathname, "w");
             Assert.IsTrue(gmp_lib.gmp_fprintf(stream, "%s", "Hello World!") == 12);
@@ -1697,14 +1696,14 @@ namespace UnitTests
             Assert.IsTrue(System.IO.File.ReadAllText(pathname) == "1.000000");
 
             _wfopen_s(out stream.Value.Value, pathname, "w");
-            Assert.IsTrue(gmp_lib.gmp_vfprintf(stream, "%e", (Double)1.0) == 13);
+            Assert.IsTrue(gmp_lib.gmp_vfprintf(stream, "%e", (Double)1.0) == 12);
             fclose(stream.Value.Value);
-            Assert.IsTrue(System.IO.File.ReadAllText(pathname) == "1.000000e+000");
+            Assert.IsTrue(System.IO.File.ReadAllText(pathname) == "1.000000e+00");
 
             _wfopen_s(out stream.Value.Value, pathname, "w");
-            Assert.IsTrue(gmp_lib.gmp_vfprintf(stream, "%e", (Single)1.0) == 13);
+            Assert.IsTrue(gmp_lib.gmp_vfprintf(stream, "%e", (Single)1.0) == 12);
             fclose(stream.Value.Value);
-            Assert.IsTrue(System.IO.File.ReadAllText(pathname) == "1.000000e+000");
+            Assert.IsTrue(System.IO.File.ReadAllText(pathname) == "1.000000e+00");
 
             _wfopen_s(out stream.Value.Value, pathname, "w");
             Assert.IsTrue(gmp_lib.gmp_vfprintf(stream, "%g", (Double)1.0) == 1);
@@ -1717,14 +1716,14 @@ namespace UnitTests
             Assert.IsTrue(System.IO.File.ReadAllText(pathname) == "1");
 
             _wfopen_s(out stream.Value.Value, pathname, "w");
-            Assert.IsTrue(gmp_lib.gmp_vfprintf(stream, "%E", (Double)1.0) == 13);
+            Assert.IsTrue(gmp_lib.gmp_vfprintf(stream, "%E", (Double)1.0) == 12);
             fclose(stream.Value.Value);
-            Assert.IsTrue(System.IO.File.ReadAllText(pathname) == "1.000000E+000");
+            Assert.IsTrue(System.IO.File.ReadAllText(pathname) == "1.000000E+00");
 
             _wfopen_s(out stream.Value.Value, pathname, "w");
-            Assert.IsTrue(gmp_lib.gmp_vfprintf(stream, "%E", (Single)1.0) == 13);
+            Assert.IsTrue(gmp_lib.gmp_vfprintf(stream, "%E", (Single)1.0) == 12);
             fclose(stream.Value.Value);
-            Assert.IsTrue(System.IO.File.ReadAllText(pathname) == "1.000000E+000");
+            Assert.IsTrue(System.IO.File.ReadAllText(pathname) == "1.000000E+00");
 
             _wfopen_s(out stream.Value.Value, pathname, "w");
             Assert.IsTrue(gmp_lib.gmp_vfprintf(stream, "%G", (Double)1.0) == 1);
@@ -1737,14 +1736,14 @@ namespace UnitTests
             Assert.IsTrue(System.IO.File.ReadAllText(pathname) == "1");
 
             _wfopen_s(out stream.Value.Value, pathname, "w");
-            Assert.IsTrue(gmp_lib.gmp_vfprintf(stream, "%a", (Double)1.0) == 13);
+            Assert.IsTrue(gmp_lib.gmp_vfprintf(stream, "%a", (Double)1.0) == 6);
             fclose(stream.Value.Value);
-            Assert.IsTrue(System.IO.File.ReadAllText(pathname) == "0x1.000000p+0");
+            Assert.IsTrue(System.IO.File.ReadAllText(pathname) == "0x8p-3");
 
             _wfopen_s(out stream.Value.Value, pathname, "w");
-            Assert.IsTrue(gmp_lib.gmp_vfprintf(stream, "%a", (Single)1.0) == 13);
+            Assert.IsTrue(gmp_lib.gmp_vfprintf(stream, "%a", (Single)1.0) == 6);
             fclose(stream.Value.Value);
-            Assert.IsTrue(System.IO.File.ReadAllText(pathname) == "0x1.000000p+0");
+            Assert.IsTrue(System.IO.File.ReadAllText(pathname) == "0x8p-3");
 
             _wfopen_s(out stream.Value.Value, pathname, "w");
             Assert.IsTrue(gmp_lib.gmp_vfprintf(stream, "%s", "Hello World!") == 12);
@@ -1852,19 +1851,19 @@ namespace UnitTests
             Assert.IsTrue(str.ToString() == "1.000000");
             Assert.IsTrue(gmp_lib.gmp_snprintf(str, 41, "%f", (Single)1.0) == 8);
             Assert.IsTrue(str.ToString() == "1.000000");
-            Assert.IsTrue(gmp_lib.gmp_snprintf(str, 41, "%e", (Double)1.0) == 13);
-            Assert.IsTrue(str.ToString() == "1.000000e+000");
-            Assert.IsTrue(gmp_lib.gmp_snprintf(str, 41, "%e", (Single)1.0) == 13);
-            Assert.IsTrue(str.ToString() == "1.000000e+000");
+            Assert.IsTrue(gmp_lib.gmp_snprintf(str, 41, "%e", (Double)1.0) == 12);
+            Assert.IsTrue(str.ToString() == "1.000000e+00");
+            Assert.IsTrue(gmp_lib.gmp_snprintf(str, 41, "%e", (Single)1.0) == 12);
+            Assert.IsTrue(str.ToString() == "1.000000e+00");
             Assert.IsTrue(gmp_lib.gmp_snprintf(str, 41, "%g", (Double)1.0) == 1);
             Assert.IsTrue(str.ToString() == "1");
             Assert.IsTrue(gmp_lib.gmp_snprintf(str, 41, "%g", (Single)1.0) == 1);
             Assert.IsTrue(str.ToString() == "1");
 
-            Assert.IsTrue(gmp_lib.gmp_snprintf(str, 41, "%E", (Double)1.0) == 13);
-            Assert.IsTrue(str.ToString() == "1.000000E+000");
-            Assert.IsTrue(gmp_lib.gmp_snprintf(str, 41, "%E", (Single)1.0) == 13);
-            Assert.IsTrue(str.ToString() == "1.000000E+000");
+            Assert.IsTrue(gmp_lib.gmp_snprintf(str, 41, "%E", (Double)1.0) == 12);
+            Assert.IsTrue(str.ToString() == "1.000000E+00");
+            Assert.IsTrue(gmp_lib.gmp_snprintf(str, 41, "%E", (Single)1.0) == 12);
+            Assert.IsTrue(str.ToString() == "1.000000E+00");
             Assert.IsTrue(gmp_lib.gmp_snprintf(str, 41, "%G", (Double)1.0) == 1);
             Assert.IsTrue(str.ToString() == "1");
             Assert.IsTrue(gmp_lib.gmp_snprintf(str, 41, "%G", (Single)1.0) == 1);
@@ -1970,19 +1969,19 @@ namespace UnitTests
             Assert.IsTrue(str.ToString() == "1.000000");
             Assert.IsTrue(gmp_lib.gmp_vsnprintf(str, 41, "%f", (Single)1.0) == 8);
             Assert.IsTrue(str.ToString() == "1.000000");
-            Assert.IsTrue(gmp_lib.gmp_vsnprintf(str, 41, "%e", (Double)1.0) == 13);
-            Assert.IsTrue(str.ToString() == "1.000000e+000");
-            Assert.IsTrue(gmp_lib.gmp_vsnprintf(str, 41, "%e", (Single)1.0) == 13);
-            Assert.IsTrue(str.ToString() == "1.000000e+000");
+            Assert.IsTrue(gmp_lib.gmp_vsnprintf(str, 41, "%e", (Double)1.0) == 12);
+            Assert.IsTrue(str.ToString() == "1.000000e+00");
+            Assert.IsTrue(gmp_lib.gmp_vsnprintf(str, 41, "%e", (Single)1.0) == 12);
+            Assert.IsTrue(str.ToString() == "1.000000e+00");
             Assert.IsTrue(gmp_lib.gmp_vsnprintf(str, 41, "%g", (Double)1.0) == 1);
             Assert.IsTrue(str.ToString() == "1");
             Assert.IsTrue(gmp_lib.gmp_vsnprintf(str, 41, "%g", (Single)1.0) == 1);
             Assert.IsTrue(str.ToString() == "1");
 
-            Assert.IsTrue(gmp_lib.gmp_vsnprintf(str, 41, "%E", (Double)1.0) == 13);
-            Assert.IsTrue(str.ToString() == "1.000000E+000");
-            Assert.IsTrue(gmp_lib.gmp_vsnprintf(str, 41, "%E", (Single)1.0) == 13);
-            Assert.IsTrue(str.ToString() == "1.000000E+000");
+            Assert.IsTrue(gmp_lib.gmp_vsnprintf(str, 41, "%E", (Double)1.0) == 12);
+            Assert.IsTrue(str.ToString() == "1.000000E+00");
+            Assert.IsTrue(gmp_lib.gmp_vsnprintf(str, 41, "%E", (Single)1.0) == 12);
+            Assert.IsTrue(str.ToString() == "1.000000E+00");
             Assert.IsTrue(gmp_lib.gmp_vsnprintf(str, 41, "%G", (Double)1.0) == 1);
             Assert.IsTrue(str.ToString() == "1");
             Assert.IsTrue(gmp_lib.gmp_vsnprintf(str, 41, "%G", (Single)1.0) == 1);
@@ -2094,28 +2093,28 @@ namespace UnitTests
             Assert.IsTrue(str.ToString() == "1.000000");
             Assert.IsTrue(gmp_lib.gmp_sprintf(str, "%f", (Single)1.0) == 8);
             Assert.IsTrue(str.ToString() == "1.000000");
-            Assert.IsTrue(gmp_lib.gmp_sprintf(str, "%e", (Double)1.0) == 13);
-            Assert.IsTrue(str.ToString() == "1.000000e+000");
-            Assert.IsTrue(gmp_lib.gmp_sprintf(str, "%e", (Single)1.0) == 13);
-            Assert.IsTrue(str.ToString() == "1.000000e+000");
+            Assert.IsTrue(gmp_lib.gmp_sprintf(str, "%e", (Double)1.0) == 12);
+            Assert.IsTrue(str.ToString() == "1.000000e+00");
+            Assert.IsTrue(gmp_lib.gmp_sprintf(str, "%e", (Single)1.0) == 12);
+            Assert.IsTrue(str.ToString() == "1.000000e+00");
             Assert.IsTrue(gmp_lib.gmp_sprintf(str, "%g", (Double)1.0) == 1);
             Assert.IsTrue(str.ToString() == "1");
             Assert.IsTrue(gmp_lib.gmp_sprintf(str, "%g", (Single)1.0) == 1);
             Assert.IsTrue(str.ToString() == "1");
 
-            Assert.IsTrue(gmp_lib.gmp_sprintf(str, "%E", (Double)1.0) == 13);
-            Assert.IsTrue(str.ToString() == "1.000000E+000");
-            Assert.IsTrue(gmp_lib.gmp_sprintf(str, "%E", (Single)1.0) == 13);
-            Assert.IsTrue(str.ToString() == "1.000000E+000");
+            Assert.IsTrue(gmp_lib.gmp_sprintf(str, "%E", (Double)1.0) == 12);
+            Assert.IsTrue(str.ToString() == "1.000000E+00");
+            Assert.IsTrue(gmp_lib.gmp_sprintf(str, "%E", (Single)1.0) == 12);
+            Assert.IsTrue(str.ToString() == "1.000000E+00");
             Assert.IsTrue(gmp_lib.gmp_sprintf(str, "%G", (Double)1.0) == 1);
             Assert.IsTrue(str.ToString() == "1");
             Assert.IsTrue(gmp_lib.gmp_sprintf(str, "%G", (Single)1.0) == 1);
             Assert.IsTrue(str.ToString() == "1");
 
-            Assert.IsTrue(gmp_lib.gmp_sprintf(str, "%a", (Double)1.0) == 13);
-            Assert.IsTrue(str.ToString() == "0x1.000000p+0");
-            Assert.IsTrue(gmp_lib.gmp_sprintf(str, "%a", (Single)1.0) == 13);
-            Assert.IsTrue(str.ToString() == "0x1.000000p+0");
+            Assert.IsTrue(gmp_lib.gmp_sprintf(str, "%a", (Double)1.0) == 6);
+            Assert.IsTrue(str.ToString() == "0x8p-3");
+            Assert.IsTrue(gmp_lib.gmp_sprintf(str, "%a", (Single)1.0) == 6);
+            Assert.IsTrue(str.ToString() == "0x8p-3");
 
             Assert.IsTrue(gmp_lib.gmp_sprintf(str, "%s", "Hello World!") == 12);
             Assert.IsTrue(str.ToString() == "Hello World!");
@@ -2213,28 +2212,28 @@ namespace UnitTests
             Assert.IsTrue(str.ToString() == "1.000000");
             Assert.IsTrue(gmp_lib.gmp_vsprintf(str, "%f", (Single)1.0) == 8);
             Assert.IsTrue(str.ToString() == "1.000000");
-            Assert.IsTrue(gmp_lib.gmp_vsprintf(str, "%e", (Double)1.0) == 13);
-            Assert.IsTrue(str.ToString() == "1.000000e+000");
-            Assert.IsTrue(gmp_lib.gmp_vsprintf(str, "%e", (Single)1.0) == 13);
-            Assert.IsTrue(str.ToString() == "1.000000e+000");
+            Assert.IsTrue(gmp_lib.gmp_vsprintf(str, "%e", (Double)1.0) == 12);
+            Assert.IsTrue(str.ToString() == "1.000000e+00");
+            Assert.IsTrue(gmp_lib.gmp_vsprintf(str, "%e", (Single)1.0) == 12);
+            Assert.IsTrue(str.ToString() == "1.000000e+00");
             Assert.IsTrue(gmp_lib.gmp_vsprintf(str, "%g", (Double)1.0) == 1);
             Assert.IsTrue(str.ToString() == "1");
             Assert.IsTrue(gmp_lib.gmp_vsprintf(str, "%g", (Single)1.0) == 1);
             Assert.IsTrue(str.ToString() == "1");
 
-            Assert.IsTrue(gmp_lib.gmp_vsprintf(str, "%E", (Double)1.0) == 13);
-            Assert.IsTrue(str.ToString() == "1.000000E+000");
-            Assert.IsTrue(gmp_lib.gmp_vsprintf(str, "%E", (Single)1.0) == 13);
-            Assert.IsTrue(str.ToString() == "1.000000E+000");
+            Assert.IsTrue(gmp_lib.gmp_vsprintf(str, "%E", (Double)1.0) == 12);
+            Assert.IsTrue(str.ToString() == "1.000000E+00");
+            Assert.IsTrue(gmp_lib.gmp_vsprintf(str, "%E", (Single)1.0) == 12);
+            Assert.IsTrue(str.ToString() == "1.000000E+00");
             Assert.IsTrue(gmp_lib.gmp_vsprintf(str, "%G", (Double)1.0) == 1);
             Assert.IsTrue(str.ToString() == "1");
             Assert.IsTrue(gmp_lib.gmp_vsprintf(str, "%G", (Single)1.0) == 1);
             Assert.IsTrue(str.ToString() == "1");
 
-            Assert.IsTrue(gmp_lib.gmp_vsprintf(str, "%a", (Double)1.0) == 13);
-            Assert.IsTrue(str.ToString() == "0x1.000000p+0");
-            Assert.IsTrue(gmp_lib.gmp_vsprintf(str, "%a", (Single)1.0) == 13);
-            Assert.IsTrue(str.ToString() == "0x1.000000p+0");
+            Assert.IsTrue(gmp_lib.gmp_vsprintf(str, "%a", (Double)1.0) == 6);
+            Assert.IsTrue(str.ToString() == "0x8p-3");
+            Assert.IsTrue(gmp_lib.gmp_vsprintf(str, "%a", (Single)1.0) == 6);
+            Assert.IsTrue(str.ToString() == "0x8p-3");
 
             Assert.IsTrue(gmp_lib.gmp_vsprintf(str, "%s", "Hello World!") == 12);
             Assert.IsTrue(str.ToString() == "Hello World!");
@@ -2433,12 +2432,12 @@ namespace UnitTests
             fclose(stream.Value.Value);
             Assert.IsTrue(flt.Value == 1.0);
 
-            System.IO.File.WriteAllText(pathname, "1.000000E+000");
+            System.IO.File.WriteAllText(pathname, "1.000000e+00");
             _wfopen_s(out stream.Value.Value, pathname, "r");
             Assert.IsTrue(gmp_lib.gmp_fscanf(stream, "%lE", dbl) == 1);
             fclose(stream.Value.Value);
             Assert.IsTrue(dbl.Value == 1);
-            System.IO.File.WriteAllText(pathname, "1.000000E+000");
+            System.IO.File.WriteAllText(pathname, "1.000000e+00");
             _wfopen_s(out stream.Value.Value, pathname, "r");
             Assert.IsTrue(gmp_lib.gmp_fscanf(stream, "%E", flt) == 1);
             fclose(stream.Value.Value);
@@ -2570,18 +2569,18 @@ namespace UnitTests
             Assert.IsTrue(dbl.Value == 1.0);
             Assert.IsTrue(gmp_lib.gmp_sscanf("1.000000", "%f", flt) == 1);
             Assert.IsTrue(flt.Value == 1.0);
-            Assert.IsTrue(gmp_lib.gmp_sscanf("1.000000e+000", "%le", dbl) == 1);
+            Assert.IsTrue(gmp_lib.gmp_sscanf("1.000000e+00", "%le", dbl) == 1);
             Assert.IsTrue(dbl.Value == 1.0);
-            Assert.IsTrue(gmp_lib.gmp_sscanf("1.000000e+000", "%e", flt) == 1);
+            Assert.IsTrue(gmp_lib.gmp_sscanf("1.000000e+00", "%e", flt) == 1);
             Assert.IsTrue(flt.Value == 1.0);
             Assert.IsTrue(gmp_lib.gmp_sscanf("1", "%lg", dbl) == 1);
             Assert.IsTrue(dbl.Value == 1.0);
             Assert.IsTrue(gmp_lib.gmp_sscanf("1", "%g", flt) == 1);
             Assert.IsTrue(flt.Value == 1.0);
 
-            Assert.IsTrue(gmp_lib.gmp_sscanf("1.000000E+000", "%lE", dbl) == 1);
+            Assert.IsTrue(gmp_lib.gmp_sscanf("1.000000e+00", "%lE", dbl) == 1);
             Assert.IsTrue(dbl.Value == 1);
-            Assert.IsTrue(gmp_lib.gmp_sscanf("1.000000E+000", "%E", flt) == 1);
+            Assert.IsTrue(gmp_lib.gmp_sscanf("1.000000e+00", "%E", flt) == 1);
             Assert.IsTrue(flt.Value == 1);
             Assert.IsTrue(gmp_lib.gmp_sscanf("1", "%lG", dbl) == 1);
             Assert.IsTrue(dbl.Value == 1);
@@ -6831,7 +6830,7 @@ namespace UnitTests
         public void mpf_cmp_d()
         {
             // Set default precision to 64 bits.
-            gmp_lib.mpf_set_default_prec(64U);
+            gmp_lib.mpf_set_default_prec(64);
 
             // Create, initialize, and set a new floating-point number x to 512.
             mpf_t x = new mpf_t();
@@ -7091,7 +7090,7 @@ namespace UnitTests
 
             // Assert that the absolute value of x is 0.5 x 2^4.
             ptr<int> exp = new ptr<int>(0);
-            Assert.IsTrue(gmp_lib.mpf_get_d_2exp(exp, x) == 0.5);
+            Assert.AreEqual(gmp_lib.mpf_get_d_2exp(exp, x), -0.5);
             Assert.IsTrue(exp.Value == 4);
 
             // Release unmanaged memory allocated for x and exp.
@@ -7802,7 +7801,7 @@ namespace UnitTests
             mpf_t x = "1.00000000000000000000001";
 
             // Assert that the size of x is 1.
-            Assert.IsTrue(gmp_lib.mpf_size(x) == 4);
+            Assert.AreEqual(gmp_lib.mpf_size(x), (size_t) 3);
 
             // Release unmanaged memory allocated for x.
             gmp_lib.mpf_clear(x);
