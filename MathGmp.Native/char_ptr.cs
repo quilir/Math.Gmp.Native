@@ -10,7 +10,7 @@ namespace MathGmp.Native
     /// </summary>
     /// <remarks></remarks>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1049:TypesThatOwnNativeResourcesShouldBeDisposable")]
-    public struct char_ptr
+    public struct char_ptr: IDisposable
     {
 
         /// <summary>
@@ -124,6 +124,11 @@ namespace MathGmp.Native
             return !value1.Equals(value2);
         }
 
+        public void Dispose()
+        {
+            if (Pointer != IntPtr.Zero) gmp_lib.free(Pointer);
+            Pointer = IntPtr.Zero;
+        }
     }
 
 }

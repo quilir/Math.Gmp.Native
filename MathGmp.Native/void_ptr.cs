@@ -9,7 +9,7 @@ namespace MathGmp.Native
     /// Represents a pointer to a block of unmanaged memory.
     /// </summary>
     /// <remarks></remarks>
-    public struct void_ptr
+    public struct void_ptr: IDisposable
     {
 
         private IntPtr _pointer;
@@ -78,6 +78,12 @@ namespace MathGmp.Native
         public override int GetHashCode()
         {
             return _pointer.GetHashCode();
+        }
+
+        public void Dispose()
+        {
+            if (_pointer != IntPtr.Zero) gmp_lib.free(_pointer);
+            _pointer = IntPtr.Zero;
         }
 
         /// <summary>

@@ -12,7 +12,7 @@ namespace MathGmp.Native
     /// <remarks></remarks>
     /// <seealso cref="mpf_t">mpf_t</seealso>
     /// <seealso cref="mpz_t">mpz_t</seealso>
-    public class mpq_t
+    public class mpq_t: IDisposable
     {
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -36,6 +36,11 @@ namespace MathGmp.Native
         {
             if (_pointer != IntPtr.Zero) gmp_lib.free(_pointer);
             _pointer = IntPtr.Zero;
+        }
+        
+        public void Dispose()
+        {
+            Clear();
         }
 
         /// <summary>
