@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Microsoft.Win32.SafeHandles;
 using System.Runtime.ConstrainedExecution;
@@ -997,7 +998,10 @@ namespace MathGmp.Native
         /// <param name="length">The number of bytes to fill with zeros.</param>
         public static void ZeroMemory(IntPtr dst, int length)
         {
-            Marshal.Copy(new Byte[length], 0, dst, length);
+            unsafe
+            {
+                Unsafe.InitBlockUnaligned((byte*)dst, 0, (uint) length);
+            }
         }
 
         #endregion
